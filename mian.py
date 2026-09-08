@@ -72,75 +72,43 @@ class WelcomeButtons(View):
         
     @discord.ui.button(label="Rules", style=discord.ButtonStyle.primary)
     async def rules_button(self, interaction: discord.Interaction, button: Button):
-        embed_rules = discord.Embed(
+        embed = discord.Embed(
             title="Server Rules",
-            description=(
-                "**IC** : Information your character knows in the city.\n"
-                "**OOC** : Out of character information about yourself.\n"
-                "**MG** : Using out of game information for your in-game character.\n"
-                "**PG** : Unrealistic actions or forcing outcomes on others.\n"
-                "**RDM / VDM** : Combat or damage without sufficient reason.\n"
-                "**FearRP** : Your character valuing their own life.\n\n"
-                "**Full Rules:**\nhttps://starcityroleplay.com/rules"
-            ),
+            description="https://starcityroleplay.com/rules",
             color=CONFIG["COLORS"]["Info"]
         )
-        embed_rules.set_footer(text="SheriffTeam | Server Rules")
-        await interaction.response.send_message(embed=embed_rules, ephemeral=True)
+        embed.set_footer(text="SheriffTeam | Rules")
+        await interaction.response.send_message(embed=embed, ephemeral=True)
     
     @discord.ui.button(label="Sheriff Department", style=discord.ButtonStyle.success)
     async def sheriff_button(self, interaction: discord.Interaction, button: Button):
-        embed_sheriff = discord.Embed(
+        embed = discord.Embed(
             title="Sheriff Department",
-            description=(
-                "Law enforcement agency responsible for security outside the city.\n\n"
-                "**About Sheriff:**\n"
-                "Star City Sheriff's Office is responsible for maintaining public order,\n"
-                "ensuring security and enforcing the law in areas outside the city limits.\n\n"
-                "**Statistics:**\n"
-                "• 45 Active Officers\n"
-                "• 12 Online\n\n"
-                "**More Information:**\nhttps://starcityroleplay.com/department/sheriff"
-            ),
+            description="https://starcityroleplay.com/department/sheriff",
             color=CONFIG["COLORS"]["Primary"]
         )
-        embed_sheriff.set_footer(text="SheriffTeam | Sheriff Department")
-        await interaction.response.send_message(embed=embed_sheriff, ephemeral=True)
+        embed.set_footer(text="SheriffTeam | Sheriff Department")
+        await interaction.response.send_message(embed=embed, ephemeral=True)
     
     @discord.ui.button(label="Chief Of Sheriff", style=discord.ButtonStyle.danger)
     async def chief_button(self, interaction: discord.Interaction, button: Button):
-        embed_chief = discord.Embed(
+        embed = discord.Embed(
             title="Chief Of Sheriff",
-            description=(
-                "**ArkaXray**\n"
-                "Chief of Sheriff Department\n\n"
-                "**Responsibilities:**\n"
-                "• Commanding all sheriff operations\n"
-                "• Managing department personnel\n"
-                "• Ensuring public safety\n"
-                "• Coordinating with other agencies\n\n"
-                "**Contact:**\n"
-                "For official matters, please create a ticket."
-            ),
+            description="**ArkaXray**\nChief of Sheriff Department",
             color=CONFIG["COLORS"]["Gold"]
         )
-        embed_chief.set_footer(text="SheriffTeam | Chief Of Sheriff")
-        await interaction.response.send_message(embed=embed_chief, ephemeral=True)
+        embed.set_footer(text="SheriffTeam | Chief Of Sheriff")
+        await interaction.response.send_message(embed=embed, ephemeral=True)
     
     @discord.ui.button(label="Support Ticket", style=discord.ButtonStyle.secondary)
     async def ticket_button(self, interaction: discord.Interaction, button: Button):
-        embed_ticket = discord.Embed(
+        embed = discord.Embed(
             title="Ticket System",
-            description=(
-                "To create a new ticket, use the following command:\n"
-                "`!ticket` (Admin only)\n\n"
-                "Or use the ticket panel in the designated channel.\n\n"
-                "**Note:** Please read the rules before creating a ticket."
-            ),
+            description="Use `!ticket` command or ticket panel channel",
             color=CONFIG["COLORS"]["Warning"]
         )
-        embed_ticket.set_footer(text="SheriffTeam | Support")
-        await interaction.response.send_message(embed=embed_ticket, ephemeral=True)
+        embed.set_footer(text="SheriffTeam | Support")
+        await interaction.response.send_message(embed=embed, ephemeral=True)
 
 class TicketManager:
     def __init__(self):
