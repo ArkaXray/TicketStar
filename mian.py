@@ -495,22 +495,38 @@ async def on_member_join(member):
             welcome_banner = "https://cdn.discordapp.com/attachments/1546881047440920588/1546905048989171833/izvGi.jpg"
             
             embed_welcome = discord.Embed(
-                title=f"{EMOJIS['status']} **Welcome To The Server!**",
+                title=f"{EMOJIS['status']} **به سرور استار سیتی خوش آمدید!**",
                 description=(
-                    f"**Hello {member.mention}!** 👋\n"
-                    f"Welcome To **{member.guild.name}**!\n\n"
-                    f"📌 **Quick Guide:**\n"
-                    f"> • Read The Rules\n"
-                    f"> • Choose Your Roles\n"
-                    f"> • Use Ticket System For Support\n\n"
-                    f"🎉 **We Hope You Enjoy Your Stay!**"
+                    f"**سلام {member.mention}!** 👋\n"
+                    f"به **{member.guild.name}** خوش آمدید!\n\n"
+                    
+                    "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n"
+                    "**👮 درباره بخش شریف:**\n"
+                    "نیروی انتظامی شهرستان، مسئول امنیت مناطق خارج از شهر و حومه.\n"
+                    "ما با گشت‌زنی مستمر و رسیدگی به جرائم، امنیت را تامین می‌کنیم.\n"
+                    "برای اطلاعات بیشتر به سایت مراجعه کنید:\n"
+                    "https://starcityroleplay.com/department/sheriff\n"
+                    "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n\n"
+                    
+                    "**📜 قوانین کلی سرور:**\n"
+                    "• **IC** : اطلاعاتی که شخصیت شما در شهر می‌فهمد.\n"
+                    "• **OOC** : اطلاعات بیرون از بازی که مربوط به خود شماست.\n"
+                    "• **MG** : استفاده از اطلاعات بیرون بازی برای شخصیت درون بازی.\n"
+                    "• **PG** : انجام کار غیرمنطقی یا تحمیل نتیجه به دیگران.\n"
+                    "• **RDM / VDM** : درگیری یا آسیب بدون دلیل کافی.\n"
+                    "• **FearRP** : ارزش قائل شدن شخصیت برای جان خود.\n\n"
+                    "برای مشاهده **قوانین کامل**، از لینک زیر استفاده کنید:\n"
+                    "https://starcityroleplay.com/rules\n"
+                    "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n\n"
+                    
+                    "🎉 **امیدواریم لحظات خوبی در نقش‌آفرینی داشته باشید!**"
                 ),
                 color=CONFIG["COLORS"]["Success"],
                 timestamp=datetime.now(timezone.utc)
             )
             embed_welcome.set_image(url=welcome_banner)
             embed_welcome.set_footer(
-                text=f"SheriffTeam | Member #{member.guild.member_count}",
+                text=f"SheriffTeam | عضو شماره {member.guild.member_count}",
                 icon_url=member.guild.icon.url if member.guild.icon else None
             )
             
