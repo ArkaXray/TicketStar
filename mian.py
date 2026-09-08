@@ -70,68 +70,76 @@ class WelcomeButtons(View):
     def __init__(self):
         super().__init__(timeout=None)
         
-    @discord.ui.button(label="📜 قوانین سرور", style=discord.ButtonStyle.primary, emoji="📜")
+    @discord.ui.button(label="Rules", style=discord.ButtonStyle.primary)
     async def rules_button(self, interaction: discord.Interaction, button: Button):
         embed_rules = discord.Embed(
-            title="📜 قوانین استار سیتی",
+            title="Server Rules",
             description=(
-                "**IC** : اطلاعاتی که شخصیت شما در شهر می‌فهمد.\n"
-                "**OOC** : اطلاعات بیرون از بازی که مربوط به خود شماست.\n"
-                "**MG** : استفاده از اطلاعات بیرون بازی برای شخصیت درون بازی.\n"
-                "**PG** : انجام کار غیرمنطقی یا تحمیل نتیجه به دیگران.\n"
-                "**RDM / VDM** : درگیری یا آسیب بدون دلیل کافی.\n"
-                "**FearRP** : ارزش قائل شدن شخصیت برای جان خود.\n\n"
-                "برای مشاهده قوانین کامل، روی لینک زیر کلیک کنید:"
+                "**IC** : Information your character knows in the city.\n"
+                "**OOC** : Out of character information about yourself.\n"
+                "**MG** : Using out of game information for your in-game character.\n"
+                "**PG** : Unrealistic actions or forcing outcomes on others.\n"
+                "**RDM / VDM** : Combat or damage without sufficient reason.\n"
+                "**FearRP** : Your character valuing their own life.\n\n"
+                "**Full Rules:**\nhttps://starcityroleplay.com/rules"
             ),
             color=CONFIG["COLORS"]["Info"]
         )
-        embed_rules.add_field(
-            name="🔗 لینک قوانین کامل",
-            value="[مشاهده قوانین کامل](https://starcityroleplay.com/rules)",
-            inline=False
-        )
-        embed_rules.set_footer(text="SheriffTeam | قوانین سرور")
-        
+        embed_rules.set_footer(text="SheriffTeam | Server Rules")
         await interaction.response.send_message(embed=embed_rules, ephemeral=True)
     
-    @discord.ui.button(label="👮 بخش شریف", style=discord.ButtonStyle.success, emoji="👮")
+    @discord.ui.button(label="Sheriff Department", style=discord.ButtonStyle.success)
     async def sheriff_button(self, interaction: discord.Interaction, button: Button):
         embed_sheriff = discord.Embed(
-            title="👮 بخش شریف",
+            title="Sheriff Department",
             description=(
-                "نیروی انتظامی شهرستان، مسئول امنیت مناطق خارج از شهر و حومه\n\n"
-                "**درباره شریف:**\n"
-                "اداره شریف استارسیتی مسئولیت اصلی برقراری و حفظ نظم عمومی، "
-                "تأمین امنیت و اجرای قانون در مناطق خارج از محدوده شهری و روستاهای حومه شهر را بر عهده دارد.\n\n"
-                "**آمار:**\n"
-                "• ۴۵ نیروی فعال\n"
-                "• ۱۲ آنلاین"
+                "Law enforcement agency responsible for security outside the city.\n\n"
+                "**About Sheriff:**\n"
+                "Star City Sheriff's Office is responsible for maintaining public order,\n"
+                "ensuring security and enforcing the law in areas outside the city limits.\n\n"
+                "**Statistics:**\n"
+                "• 45 Active Officers\n"
+                "• 12 Online\n\n"
+                "**More Information:**\nhttps://starcityroleplay.com/department/sheriff"
             ),
             color=CONFIG["COLORS"]["Primary"]
         )
-        embed_sheriff.add_field(
-            name="🔗 لینک بخش شریف",
-            value="[مشاهده اطلاعات بیشتر](https://starcityroleplay.com/department/sheriff)",
-            inline=False
-        )
-        embed_sheriff.set_footer(text="SheriffTeam | بخش شریف")
-        
+        embed_sheriff.set_footer(text="SheriffTeam | Sheriff Department")
         await interaction.response.send_message(embed=embed_sheriff, ephemeral=True)
     
-    @discord.ui.button(label="🎫 تیکت پشتیبانی", style=discord.ButtonStyle.danger, emoji="🎫")
+    @discord.ui.button(label="Chief Of Sheriff", style=discord.ButtonStyle.danger)
+    async def chief_button(self, interaction: discord.Interaction, button: Button):
+        embed_chief = discord.Embed(
+            title="Chief Of Sheriff",
+            description=(
+                "**ArkaXray**\n"
+                "Chief of Sheriff Department\n\n"
+                "**Responsibilities:**\n"
+                "• Commanding all sheriff operations\n"
+                "• Managing department personnel\n"
+                "• Ensuring public safety\n"
+                "• Coordinating with other agencies\n\n"
+                "**Contact:**\n"
+                "For official matters, please create a ticket."
+            ),
+            color=CONFIG["COLORS"]["Gold"]
+        )
+        embed_chief.set_footer(text="SheriffTeam | Chief Of Sheriff")
+        await interaction.response.send_message(embed=embed_chief, ephemeral=True)
+    
+    @discord.ui.button(label="Support Ticket", style=discord.ButtonStyle.secondary)
     async def ticket_button(self, interaction: discord.Interaction, button: Button):
         embed_ticket = discord.Embed(
-            title="🎫 سیستم تیکت",
+            title="Ticket System",
             description=(
-                "برای ایجاد تیکت جدید، از دستور زیر استفاده کنید:\n"
-                "`!ticket` (فقط ادمین‌ها)\n\n"
-                "یا از پنل تیکت در کانال مربوطه استفاده کنید.\n\n"
-                "**نکته:** لطفاً قبل از ایجاد تیکت، قوانین را مطالعه کنید."
+                "To create a new ticket, use the following command:\n"
+                "`!ticket` (Admin only)\n\n"
+                "Or use the ticket panel in the designated channel.\n\n"
+                "**Note:** Please read the rules before creating a ticket."
             ),
             color=CONFIG["COLORS"]["Warning"]
         )
-        embed_ticket.set_footer(text="SheriffTeam | پشتیبانی")
-        
+        embed_ticket.set_footer(text="SheriffTeam | Support")
         await interaction.response.send_message(embed=embed_ticket, ephemeral=True)
 
 class TicketManager:
@@ -169,7 +177,7 @@ def generate_ticket_id():
 
 def embed(title, desc, color=CONFIG["COLORS"]["Primary"], footer="SheriffTeam | ArkaXray", ts=True):
     e = discord.Embed(
-        title=f"**{title}**",
+        title=title,
         description=desc,
         color=color,
         timestamp=datetime.now(timezone.utc) if ts else None
@@ -179,41 +187,41 @@ def embed(title, desc, color=CONFIG["COLORS"]["Primary"], footer="SheriffTeam | 
 
 def embed_ticket_log(tid_data):
     e = discord.Embed(
-        title=f"{EMOJIS['ticket']} Ticket Log | {tid_data['ticket_id']}",
+        title=f"Ticket Log | {tid_data['ticket_id']}",
         color=CONFIG["COLORS"]["Info"],
         timestamp=datetime.now(timezone.utc)
     )
-    e.add_field(name=f"{EMOJIS['title']} Title", value=tid_data['title'], inline=False)
-    e.add_field(name=f"{EMOJIS['user']} Created By", value=f"<@{tid_data['user_id']}>", inline=True)
-    e.add_field(name=f"{EMOJIS['report']} Type", value=tid_data['type'], inline=True)
-    e.add_field(name=f"{EMOJIS['date']} Created At", value=tid_data['created_at'], inline=True)
-    e.add_field(name=f"{EMOJIS['key']} Closed At", value=tid_data['closed_at'] or "Still Open", inline=True)
-    e.add_field(name=f"{EMOJIS['status']} Status", value=tid_data['status'].capitalize(), inline=True)
-    e.add_field(name=f"{EMOJIS['admin_faction']} Claimed By", value=f"<@{tid_data['claimed_by']}>" if tid_data['claimed_by'] else "Not Claimed", inline=True)
+    e.add_field(name="Title", value=tid_data['title'], inline=False)
+    e.add_field(name="Created By", value=f"<@{tid_data['user_id']}>", inline=True)
+    e.add_field(name="Type", value=tid_data['type'], inline=True)
+    e.add_field(name="Created At", value=tid_data['created_at'], inline=True)
+    e.add_field(name="Closed At", value=tid_data['closed_at'] or "Still Open", inline=True)
+    e.add_field(name="Status", value=tid_data['status'].capitalize(), inline=True)
+    e.add_field(name="Claimed By", value=f"<@{tid_data['claimed_by']}>" if tid_data['claimed_by'] else "Not Claimed", inline=True)
 
     if tid_data['messages']:
         msg_content = ""
         for m in tid_data['messages'][-5:]:
             msg_content += f"**{m['author']}**: {m['content']}\n"
-        e.add_field(name=f"{EMOJIS['note']} Recent Messages", value=msg_content, inline=False)
+        e.add_field(name="Recent Messages", value=msg_content, inline=False)
     else:
-        e.add_field(name=f"{EMOJIS['note']} Messages", value="No Messages Recorded", inline=False)
+        e.add_field(name="Messages", value="No Messages Recorded", inline=False)
     
     e.set_footer(text="SheriffTeam | ArkaXray")
     return e
 
 class TicketModal(Modal):
     def __init__(self, ticket_type: str):
-        super().__init__(title="🎫 Create New Ticket")
+        super().__init__(title="Create New Ticket")
         self.ticket_type = ticket_type
         self.add_item(TextInput(
-            label="📝 Ticket Title",
+            label="Ticket Title",
             style=discord.TextStyle.short,
             placeholder="Enter a descriptive title for your ticket...",
             max_length=100
         ))
         self.add_item(TextInput(
-            label="📋 Reason / Description",
+            label="Reason / Description",
             style=discord.TextStyle.paragraph,
             placeholder="Please explain your issue in detail...",
             max_length=1000
@@ -228,7 +236,7 @@ class TicketModal(Modal):
             print(f"Error in TicketModal: {e}")
             traceback.print_exc()
             await interaction.response.send_message(
-                embed=embed(f"{EMOJIS['danger']} Error", f"An Error Occurred:\n{str(e)}", CONFIG["COLORS"]["Error"]),
+                embed=embed("Error", f"An Error Occurred:\n{str(e)}", CONFIG["COLORS"]["Error"]),
                 ephemeral=True
             )
 
@@ -237,32 +245,27 @@ class TicketPanel(View):
         super().__init__(timeout=None)
 
     @discord.ui.select(
-        placeholder="🔽 Select Ticket Type...",
+        placeholder="Select Ticket Type...",
         options=[
             discord.SelectOption(
-                label="Ozviat", 
-                emoji=EMOJIS['user'],
-                description="👤 New Membership Request"
+                label="Ozviat",
+                description="New Membership Request"
             ),
             discord.SelectOption(
-                label="Shekayat", 
-                emoji=EMOJIS['report'],
-                description="📢 Register A Complaint"
+                label="Shekayat",
+                description="Register A Complaint"
             ),
             discord.SelectOption(
-                label="Enteghali", 
-                emoji=EMOJIS['transfer'],
-                description="📦 Transfer Request"
+                label="Enteghali",
+                description="Transfer Request"
             ),
             discord.SelectOption(
-                label="AdminFaction", 
-                emoji=EMOJIS['admin_faction'],
-                description="👑 Admin Faction Related"
+                label="Chief Of Sheriff",
+                description="Chief Of Sheriff Related"
             ),
             discord.SelectOption(
-                label="Other", 
-                emoji=EMOJIS['other'],
-                description="❓ Other Inquiries"
+                label="Other",
+                description="Other Inquiries"
             )
         ]
     )
@@ -276,29 +279,29 @@ class TicketControls(View):
         self.tid = tid
         self.ticket_owner_id = ticket_owner_id
 
-    @discord.ui.button(label="👤 Claim", style=discord.ButtonStyle.primary, emoji="👤")
+    @discord.ui.button(label="Claim", style=discord.ButtonStyle.primary)
     async def claim(self, interaction: discord.Interaction, button: Button):
         if interaction.user.id == self.ticket_owner_id:
             await interaction.response.send_message(
-                embed=embed(f"{EMOJIS['danger']} Cannot Claim", "❌ You Cannot Claim Your Own Ticket", CONFIG["COLORS"]["Error"]),
+                embed=embed("Cannot Claim", "You Cannot Claim Your Own Ticket", CONFIG["COLORS"]["Error"]),
                 ephemeral=True
             )
             return
         ticket_manager.claim_ticket(self.tid, interaction.user.id)
         await interaction.response.send_message(
-            embed=embed(f"{EMOJIS['status']} Ticket Claimed", f"✅ Ticket Claimed By {interaction.user.mention}", CONFIG["COLORS"]["Success"])
+            embed=embed("Ticket Claimed", f"Ticket Claimed By {interaction.user.mention}", CONFIG["COLORS"]["Success"])
         )
         button.disabled = True
         await interaction.message.edit(view=self)
 
-    @discord.ui.button(label="🔒 Close", style=discord.ButtonStyle.danger, emoji="🔒")
+    @discord.ui.button(label="Close", style=discord.ButtonStyle.danger)
     async def close(self, interaction: discord.Interaction, button: Button):
         try:
             ticket_manager.close_ticket(self.tid)
             for i in self.children:
                 i.disabled = True
             await interaction.response.send_message(
-                embed=embed(f"{EMOJIS['danger']} Ticket Closed", "🔒 Preparing Full JSON Log...", CONFIG["COLORS"]["Warning"])
+                embed=embed("Ticket Closed", "Preparing Full JSON Log...", CONFIG["COLORS"]["Warning"])
             )
             await interaction.message.edit(view=self)
 
@@ -340,10 +343,13 @@ async def create_ticket_channel(interaction: discord.Interaction, ttype: str, ti
         user = interaction.user
         tid = generate_ticket_id()
         
-        category_id = CONFIG["CATEGORY_IDS"].get(ttype)
+        if ttype == "Chief Of Sheriff":
+            ttype = "ChiefOfSheriff"
+        
+        category_id = CONFIG["CATEGORY_IDS"].get("AdminFaction")
         if not category_id:
             await interaction.response.send_message(
-                embed=embed(f"{EMOJIS['danger']} Error", f"❌ Category Not Found For {ttype}!", CONFIG["COLORS"]["Error"]),
+                embed=embed("Error", f"Category Not Found For {ttype}!", CONFIG["COLORS"]["Error"]),
                 ephemeral=True
             )
             return
@@ -352,8 +358,8 @@ async def create_ticket_channel(interaction: discord.Interaction, ttype: str, ti
         if not category or not isinstance(category, discord.CategoryChannel):
             await interaction.response.send_message(
                 embed=embed(
-                    f"{EMOJIS['danger']} Error", 
-                    f"❌ Category Not Found! (ID: {category_id})\nPlease Contact Admin.",
+                    "Error", 
+                    f"Category Not Found! (ID: {category_id})\nPlease Contact Admin.",
                     CONFIG["COLORS"]["Error"]
                 ),
                 ephemeral=True
@@ -365,8 +371,8 @@ async def create_ticket_channel(interaction: discord.Interaction, ttype: str, ti
         if not ticket_sup_role:
             await interaction.response.send_message(
                 embed=embed(
-                    f"{EMOJIS['danger']} Error",
-                    "❌ Ticket Support Role Not Found! Please Contact Admin.",
+                    "Error",
+                    "Ticket Support Role Not Found! Please Contact Admin.",
                     CONFIG["COLORS"]["Error"]
                 ),
                 ephemeral=True
@@ -398,20 +404,20 @@ async def create_ticket_channel(interaction: discord.Interaction, ttype: str, ti
 
         try:
             await interaction.response.send_message(
-                embed=embed(f"{EMOJIS['status']} Ticket Created", f"✅ Go To {channel.mention}", CONFIG["COLORS"]["Success"]),
+                embed=embed("Ticket Created", f"Go To {channel.mention}", CONFIG["COLORS"]["Success"]),
                 ephemeral=True
             )
         except discord.InteractionResponded:
             await interaction.followup.send(
-                embed=embed(f"{EMOJIS['status']} Ticket Created", f"✅ Go To {channel.mention}", CONFIG["COLORS"]["Success"]),
+                embed=embed("Ticket Created", f"Go To {channel.mention}", CONFIG["COLORS"]["Success"]),
                 ephemeral=True
             )
 
         await channel.send(
             content=f"{user.mention} | <@&{CONFIG['ROLES']['TicketSup']}>",
             embed=embed(
-                f"{EMOJIS['ticket']} {title}",
-                f"**Hello {user.mention}!**\n**Reason:**\n{reason}",
+                title,
+                f"Hello {user.mention}!\nReason:\n{reason}",
                 CONFIG["COLORS"]["Primary"]
             ),
             view=TicketControls(tid, user.id)
@@ -424,7 +430,7 @@ async def create_ticket_channel(interaction: discord.Interaction, ttype: str, ti
         traceback.print_exc()
         try:
             await interaction.response.send_message(
-                embed=embed(f"{EMOJIS['danger']} Error", f"❌ An Error Occurred:\n{str(e)}", CONFIG["COLORS"]["Error"]),
+                embed=embed("Error", f"An Error Occurred:\n{str(e)}", CONFIG["COLORS"]["Error"]),
                 ephemeral=True
             )
         except:
@@ -443,22 +449,22 @@ async def send_ticket_panel(bot):
                 await asyncio.sleep(0.5)
 
         embed_panel = discord.Embed(
-            title=f"{EMOJIS['ticket']} **Ticket System**",
+            title="Ticket System",
             description=(
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n"
-                "**📌 How To Create A Ticket:**\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                "How To Create A Ticket:\n"
                 "• Select your ticket type from the menu below\n"
                 "• Fill in the title and description\n"
                 "• Wait for support team to assist you\n\n"
-                "**🔹 Ticket Types:**\n"
-                f"{EMOJIS['user']} **Ozviat** → New Membership Request\n"
-                f"{EMOJIS['report']} **Shekayat** → Register A Complaint\n"
-                f"{EMOJIS['transfer']} **Enteghali** → Transfer Request\n"
-                f"{EMOJIS['admin_faction']} **AdminFaction** → Admin Related\n"
-                f"{EMOJIS['other']} **Other** → Other Inquiries\n\n"
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n"
-                "⚡ **Select Your Ticket Type Below**\n"
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**"
+                "Ticket Types:\n"
+                "Ozviat → New Membership Request\n"
+                "Shekayat → Register A Complaint\n"
+                "Enteghali → Transfer Request\n"
+                "Chief Of Sheriff → Chief Related\n"
+                "Other → Other Inquiries\n\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                "Select Your Ticket Type Below\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             ),
             color=CONFIG["COLORS"]["Primary"],
             timestamp=datetime.now(timezone.utc)
@@ -493,18 +499,18 @@ async def update_status(bot):
         online_members = sum(1 for m in guild.members if m.status != discord.Status.offline)
         
         embed_status = discord.Embed(
-            title=f"{EMOJIS['status']} **Server Status**",
+            title="Server Status",
             description=(
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n"
-                f"**👥 Members:**\n"
-                f"> • Total: **{total_members}**\n"
-                f"> • Online: **{online_members}**\n\n"
-                f"**🎫 Tickets:**\n"
-                f"> • Open: **{open_tickets}**\n"
-                f"> • Closed: **{closed_tickets}**\n"
-                f"> • Total: **{total_tickets}**\n"
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n"
-                f"🕐 **Last Updated:** <t:{int(datetime.now(timezone.utc).timestamp())}:R>"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                "Members:\n"
+                f"Total: {total_members}\n"
+                f"Online: {online_members}\n\n"
+                "Tickets:\n"
+                f"Open: {open_tickets}\n"
+                f"Closed: {closed_tickets}\n"
+                f"Total: {total_tickets}\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"Last Updated: <t:{int(datetime.now(timezone.utc).timestamp())}:R>"
             ),
             color=CONFIG["COLORS"]["Info"],
             timestamp=datetime.now(timezone.utc)
@@ -563,15 +569,15 @@ async def on_member_join(member):
             welcome_banner = "https://cdn.discordapp.com/attachments/1546881047440920588/1546905048989171833/izvGi.jpg"
             
             embed_welcome = discord.Embed(
-                title=f"{EMOJIS['status']} Welcome To The Server!",
+                title="Welcome To The Server!",
                 description=(
-                    f"**Hello {member.mention}!** 👋\n"
-                    f"Welcome To **[ 𝓢𝓒 ] Sheriff Department**!\n\n"
-                    "📌 **Quick Guide:**\n"
+                    f"Hello {member.mention}! 👋\n"
+                    f"Welcome To [ 𝓢𝓒 ] Sheriff Department!\n\n"
+                    "Quick Guide:\n"
                     "• Read The Rules\n"
                     "• Choose Your Roles\n"
                     "• Use Ticket System For Support\n\n"
-                    "🎉 **We Hope You Enjoy Your Stay!**"
+                    "We Hope You Enjoy Your Stay!"
                 ),
                 color=CONFIG["COLORS"]["Success"],
                 timestamp=datetime.now(timezone.utc)
@@ -585,7 +591,7 @@ async def on_member_join(member):
             view = WelcomeButtons()
             
             await channel.send(
-                content=f"{member.mention} 🎉",
+                content=f"{member.mention}",
                 embed=embed_welcome,
                 view=view
             )
@@ -609,16 +615,16 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(
             embed=embed(
-                f"{EMOJIS['danger']} Access Denied",
-                "❌ You Don't Have Permission To Use This Command!",
+                "Access Denied",
+                "You Don't Have Permission To Use This Command!",
                 CONFIG["COLORS"]["Error"]
             )
         )
     elif isinstance(error, commands.CommandNotFound):
         await ctx.send(
             embed=embed(
-                f"{EMOJIS['danger']} Command Not Found",
-                f"❌ Command `{ctx.message.content}` Not Found!\nUse `!help` To See Available Commands.",
+                "Command Not Found",
+                f"Command `{ctx.message.content}` Not Found!\nUse `!help` To See Available Commands.",
                 CONFIG["COLORS"]["Error"]
             )
         )
@@ -626,8 +632,8 @@ async def on_command_error(ctx, error):
         print(f"Command Error: {error}")
         await ctx.send(
             embed=embed(
-                f"{EMOJIS['danger']} Error",
-                f"❌ An Error Occurred:\n{str(error)}",
+                "Error",
+                f"An Error Occurred:\n{str(error)}",
                 CONFIG["COLORS"]["Error"]
             )
         )
@@ -658,22 +664,22 @@ async def ticket(ctx):
                 await asyncio.sleep(0.5)
 
         embed_panel = discord.Embed(
-            title=f"{EMOJIS['ticket']} **Ticket System**",
+            title="Ticket System",
             description=(
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n"
-                "**📌 How To Create A Ticket:**\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                "How To Create A Ticket:\n"
                 "• Select your ticket type from the menu below\n"
                 "• Fill in the title and description\n"
                 "• Wait for support team to assist you\n\n"
-                "**🔹 Ticket Types:**\n"
-                f"{EMOJIS['user']} **Ozviat** → New Membership Request\n"
-                f"{EMOJIS['report']} **Shekayat** → Register A Complaint\n"
-                f"{EMOJIS['transfer']} **Enteghali** → Transfer Request\n"
-                f"{EMOJIS['admin_faction']} **AdminFaction** → Admin Related\n"
-                f"{EMOJIS['other']} **Other** → Other Inquiries\n\n"
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n"
-                "⚡ **Select Your Ticket Type Below**\n"
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**"
+                "Ticket Types:\n"
+                "Ozviat → New Membership Request\n"
+                "Shekayat → Register A Complaint\n"
+                "Enteghali → Transfer Request\n"
+                "Chief Of Sheriff → Chief Related\n"
+                "Other → Other Inquiries\n\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                "Select Your Ticket Type Below\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             ),
             color=CONFIG["COLORS"]["Primary"],
             timestamp=datetime.now(timezone.utc)
@@ -684,7 +690,7 @@ async def ticket(ctx):
         print(f"Ticket Panel Shown By {ctx.author.name}")
     except Exception as e:
         print(f"Error In Ticket Command: {e}")
-        await ctx.send(embed=embed(f"{EMOJIS['danger']} Error", str(e), CONFIG["COLORS"]["Error"]))
+        await ctx.send(embed=embed("Error", str(e), CONFIG["COLORS"]["Error"]))
 
 @bot.command()
 async def stats(ctx):
@@ -695,15 +701,15 @@ async def stats(ctx):
         online = sum(1 for m in g.members if m.status != discord.Status.offline)
         
         embed_stats = discord.Embed(
-            title=f"{EMOJIS['status']} **Server Statistics**",
+            title="Server Statistics",
             description=(
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n"
-                f"{EMOJIS['user']} **Total Members:** {g.member_count}\n"
-                f"🟢 **Online:** {online}\n"
-                f"{EMOJIS['status']} **Open Tickets:** {open_t}\n"
-                f"{EMOJIS['key']} **Closed Tickets:** {closed_t}\n"
-                f"{EMOJIS['ticket']} **Total Tickets:** {len(ticket_manager.tickets)}\n"
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"Total Members: {g.member_count}\n"
+                f"Online: {online}\n"
+                f"Open Tickets: {open_t}\n"
+                f"Closed Tickets: {closed_t}\n"
+                f"Total Tickets: {len(ticket_manager.tickets)}\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             ),
             color=CONFIG["COLORS"]["Info"],
             timestamp=datetime.now(timezone.utc)
@@ -713,29 +719,29 @@ async def stats(ctx):
         await ctx.send(embed=embed_stats)
     except Exception as e:
         print(f"Error In Stats Command: {e}")
-        await ctx.send(embed=embed(f"{EMOJIS['danger']} Error", str(e), CONFIG["COLORS"]["Error"]))
+        await ctx.send(embed=embed("Error", str(e), CONFIG["COLORS"]["Error"]))
 
 @bot.command()
 @commands.has_permissions(administrator=True)
 async def refresh(ctx):
     try:
         await update_status(bot)
-        await ctx.send(embed=embed("✅ Status Refreshed", "Status channel has been updated!", CONFIG["COLORS"]["Success"]))
+        await ctx.send(embed=embed("Status Refreshed", "Status channel has been updated!", CONFIG["COLORS"]["Success"]))
     except Exception as e:
-        await ctx.send(embed=embed(f"{EMOJIS['danger']} Error", str(e), CONFIG["COLORS"]["Error"]))
+        await ctx.send(embed=embed("Error", str(e), CONFIG["COLORS"]["Error"]))
 
 @bot.command()
 async def help(ctx):
     try:
         embed_help = discord.Embed(
-            title=f"{EMOJIS['login']} **Help Menu**",
+            title="Help Menu",
             description=(
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n"
-                f"{EMOJIS['ticket']} `!ticket` - Show Ticket Panel (Admin Only)\n"
-                f"{EMOJIS['status']} `!stats` - Show Server Statistics\n"
-                f"{EMOJIS['login']} `!help` - Show This Menu\n"
-                f"🔄 `!refresh` - Refresh Status Channel (Admin Only)\n"
-                "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                "`!ticket` - Show Ticket Panel (Admin Only)\n"
+                "`!stats` - Show Server Statistics\n"
+                "`!help` - Show This Menu\n"
+                "`!refresh` - Refresh Status Channel (Admin Only)\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             ),
             color=CONFIG["COLORS"]["Primary"],
             timestamp=datetime.now(timezone.utc)
@@ -745,7 +751,7 @@ async def help(ctx):
         await ctx.send(embed=embed_help)
     except Exception as e:
         print(f"Error In Help Command: {e}")
-        await ctx.send(embed=embed(f"{EMOJIS['danger']} Error", str(e), CONFIG["COLORS"]["Error"]))
+        await ctx.send(embed=embed("Error", str(e), CONFIG["COLORS"]["Error"]))
 
 if __name__ == "__main__":
     try:
