@@ -1,1 +1,1 @@
-worker: python3 mian.py
+worker: python bot.py
