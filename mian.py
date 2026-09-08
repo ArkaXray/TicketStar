@@ -48,67 +48,17 @@ CONFIG = {
     }
 }
 
-EMOJIS = {
-    "admin_faction": "<:267110platino:1540481380209791066>",
-    "user": "<:850439snapchatuser:1540481060050305075>",
-    "status": "<:124857goodconektion:1540481057932181504>",
-    "title": "<:55099creativewriters:1540481055155552367>",
-    "note": "<:968958deathnote:1540481053444153384>",
-    "date": "<:47836calendar:1540481051481219143>",
-    "key": "<:519957cadeadokey:1540481049191125142>",
-    "login": "<:94851login:1540481047517593641>",
-    "report": "<:18181report:1540481045663711372>",
-    "transfer": "<:7234transferir:1540481043872612424>",
-    "other": "<:62644roskomnadzor:1540481039988818023>",
-    "down": "<:452997downvote:1540481038076354590>",
-    "ticket": "<a:437007ticket:1540478194551889920>",
-    "danger": "<:89278danger:1540485375145939076>",
-    "select": "<:131090select:1540485377092223006>"
-}
-
 class WelcomeButtons(View):
     def __init__(self):
         super().__init__(timeout=None)
         
     @discord.ui.button(label="Rules", style=discord.ButtonStyle.primary)
     async def rules_button(self, interaction: discord.Interaction, button: Button):
-        embed = discord.Embed(
-            title="Server Rules",
-            description="https://starcityroleplay.com/rules",
-            color=CONFIG["COLORS"]["Info"]
-        )
-        embed.set_footer(text="SheriffTeam | Rules")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.response.send_message("https://starcityroleplay.com/rules", ephemeral=True)
     
     @discord.ui.button(label="Sheriff Department", style=discord.ButtonStyle.success)
     async def sheriff_button(self, interaction: discord.Interaction, button: Button):
-        embed = discord.Embed(
-            title="Sheriff Department",
-            description="https://starcityroleplay.com/department/sheriff",
-            color=CONFIG["COLORS"]["Primary"]
-        )
-        embed.set_footer(text="SheriffTeam | Sheriff Department")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
-    
-    @discord.ui.button(label="Chief Of Sheriff", style=discord.ButtonStyle.danger)
-    async def chief_button(self, interaction: discord.Interaction, button: Button):
-        embed = discord.Embed(
-            title="Chief Of Sheriff",
-            description="**ArkaXray**\nChief of Sheriff Department",
-            color=CONFIG["COLORS"]["Gold"]
-        )
-        embed.set_footer(text="SheriffTeam | Chief Of Sheriff")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
-    
-    @discord.ui.button(label="Support Ticket", style=discord.ButtonStyle.secondary)
-    async def ticket_button(self, interaction: discord.Interaction, button: Button):
-        embed = discord.Embed(
-            title="Ticket System",
-            description="Use `!ticket` command or ticket panel channel",
-            color=CONFIG["COLORS"]["Warning"]
-        )
-        embed.set_footer(text="SheriffTeam | Support")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.response.send_message("https://starcityroleplay.com/department/sheriff", ephemeral=True)
 
 class TicketManager:
     def __init__(self):
