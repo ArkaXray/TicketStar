@@ -9,14 +9,12 @@ import os
 import traceback
 from dotenv import load_dotenv
 
-# =================== LOAD ENV ===================
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 if not TOKEN:
-    raise ValueError("❌ No TOKEN found! Please set DISCORD_TOKEN in .env file")
+    raise ValueError("No TOKEN found! Please set DISCORD_TOKEN in .env file")
 
-# =================== CONFIG ===================
 CONFIG = {
     "TOKEN": TOKEN,
     "PREFIX": "!",
@@ -29,7 +27,7 @@ CONFIG = {
     },
     "ROLES": {
         "TicketSup": 1546258768457895986,
-        "AutoRole": 1546258768457895986
+        "AutoRole": 1546258763646767195
     },
     "CHANNELS": {
         "TicketPanel": 1546259071529652316,
@@ -50,7 +48,6 @@ CONFIG = {
     }
 }
 
-# =================== CUSTOM EMOJIS ===================
 EMOJIS = {
     "admin_faction": "<:267110platino:1540481380209791066>",
     "user": "<:850439snapchatuser:1540481060050305075>",
@@ -69,7 +66,6 @@ EMOJIS = {
     "select": "<:131090select:1540485377092223006>"
 }
 
-# =================== Ticket Manager ===================
 class TicketManager:
     def __init__(self):
         self.tickets = {}
@@ -100,7 +96,6 @@ class TicketManager:
 
 ticket_manager = TicketManager()
 
-# =================== Utility ===================
 def generate_ticket_id():
     return f"T-{random.randint(1000,9999)}"
 
@@ -139,7 +134,6 @@ def embed_ticket_log(tid_data):
     e.set_footer(text="SheriffTeam | ArkaXray")
     return e
 
-# =================== Modal ===================
 class TicketModal(Modal):
     def __init__(self, ticket_type: str):
         super().__init__(title="🎫 Create New Ticket")
@@ -163,14 +157,13 @@ class TicketModal(Modal):
             reason = self.children[1].value
             await create_ticket_channel(interaction, self.ticket_type, title, reason)
         except Exception as e:
-            print(f"❌ Error in TicketModal: {e}")
+            print(f"Error in TicketModal: {e}")
             traceback.print_exc()
             await interaction.response.send_message(
                 embed=embed(f"{EMOJIS['danger']} Error", f"An Error Occurred:\n{str(e)}", CONFIG["COLORS"]["Error"]),
                 ephemeral=True
             )
 
-# =================== Ticket Views ===================
 class TicketPanel(View):
     def __init__(self):
         super().__init__(timeout=None)
@@ -263,17 +256,16 @@ class TicketControls(View):
                         file=discord.File(file_path, filename=f"{self.tid}.json")
                     )
                 except:
-                    print(f"⚠️ Could Not Send DM To {user.name}")
+                    print(f"Could Not Send DM To {user.name}")
 
             await asyncio.sleep(5)
             await interaction.channel.delete()
             os.remove(file_path)
             
         except Exception as e:
-            print(f"❌ Error Closing Ticket: {e}")
+            print(f"Error Closing Ticket: {e}")
             traceback.print_exc()
 
-# =================== Ticket Creation ===================
 async def create_ticket_channel(interaction: discord.Interaction, ttype: str, title: str, reason: str):
     try:
         guild = interaction.guild
@@ -293,13 +285,24 @@ async def create_ticket_channel(interaction: discord.Interaction, ttype: str, ti
             await interaction.response.send_message(
                 embed=embed(
                     f"{EMOJIS['danger']} Error", 
-                    f"❌ Category Not Found! (ID: {category_id})\n"
-                    f"Please Contact Admin.",
+                    f"❌ Category Not Found! (ID: {category_id})\nPlease Contact Admin.",
                     CONFIG["COLORS"]["Error"]
                 ),
                 ephemeral=True
             )
-            print(f"❌ Category Not Found: ID={category_id}, Type={type(category)}")
+            print(f"Category Not Found: ID={category_id}, Type={type(category)}")
+            return
+
+        ticket_sup_role = guild.get_role(CONFIG["ROLES"]["TicketSup"])
+        if not ticket_sup_role:
+            await interaction.response.send_message(
+                embed=embed(
+                    f"{EMOJIS['danger']} Error",
+                    "❌ Ticket Support Role Not Found! Please Contact Admin.",
+                    CONFIG["COLORS"]["Error"]
+                ),
+                ephemeral=True
+            )
             return
 
         overwrites = {
@@ -309,7 +312,7 @@ async def create_ticket_channel(interaction: discord.Interaction, ttype: str, ti
                 send_messages=True, 
                 read_message_history=True
             ),
-            guild.get_role(CONFIG["ROLES"]["TicketSup"]): discord.PermissionOverwrite(
+            ticket_sup_role: discord.PermissionOverwrite(
                 view_channel=True, 
                 send_messages=True, 
                 manage_channels=True, 
@@ -340,17 +343,16 @@ async def create_ticket_channel(interaction: discord.Interaction, ttype: str, ti
             content=f"{user.mention} | <@&{CONFIG['ROLES']['TicketSup']}>",
             embed=embed(
                 f"{EMOJIS['ticket']} {title}",
-                f"**Hello {user.mention}!**\n"
-                f"**Reason:**\n{reason}",
+                f"**Hello {user.mention}!**\n**Reason:**\n{reason}",
                 CONFIG["COLORS"]["Primary"]
             ),
             view=TicketControls(tid, user.id)
         )
         
-        print(f"✅ Ticket Created: {tid} By {user.name}")
+        print(f"Ticket Created: {tid} By {user.name}")
         
     except Exception as e:
-        print(f"❌ Error Creating Ticket: {e}")
+        print(f"Error Creating Ticket: {e}")
         traceback.print_exc()
         try:
             await interaction.response.send_message(
@@ -360,12 +362,11 @@ async def create_ticket_channel(interaction: discord.Interaction, ttype: str, ti
         except:
             pass
 
-# =================== Auto Send Ticket Panel ===================
-async def send_ticket_panel():
+async def send_ticket_panel(bot):
     try:
         channel = bot.get_channel(CONFIG["CHANNELS"]["TicketPanel"])
         if not channel:
-            print(f"❌ TicketPanel Channel Not Found! ID: {CONFIG['CHANNELS']['TicketPanel']}")
+            print(f"TicketPanel Channel Not Found! ID: {CONFIG['CHANNELS']['TicketPanel']}")
             return
 
         async for message in channel.history(limit=100):
@@ -397,18 +398,17 @@ async def send_ticket_panel():
         embed_panel.set_footer(text="SheriffTeam | Support System", icon_url=bot.user.display_avatar.url)
 
         await channel.send(embed=embed_panel, view=TicketPanel())
-        print(f"✅ Ticket Panel Auto-Sent In {channel.name}")
+        print(f"Ticket Panel Auto-Sent In {channel.name}")
         
     except Exception as e:
-        print(f"❌ Error Sending Ticket Panel: {e}")
+        print(f"Error Sending Ticket Panel: {e}")
         traceback.print_exc()
 
-# =================== Status System ===================
-async def update_status():
+async def update_status(bot):
     try:
         channel = bot.get_channel(CONFIG["CHANNELS"]["Status"])
         if not channel:
-            print(f"❌ Status Channel Not Found! ID: {CONFIG['CHANNELS']['Status']}")
+            print(f"Status Channel Not Found! ID: {CONFIG['CHANNELS']['Status']}")
             return
 
         async for message in channel.history(limit=10):
@@ -445,28 +445,26 @@ async def update_status():
         embed_status.set_footer(text="SheriffTeam | Live Status", icon_url=bot.user.display_avatar.url)
 
         await channel.send(embed=embed_status)
-        print(f"✅ Status Updated In {channel.name}")
+        print(f"Status Updated In {channel.name}")
         
     except Exception as e:
-        print(f"❌ Error Updating Status: {e}")
+        print(f"Error Updating Status: {e}")
         traceback.print_exc()
 
-# =================== Bot Setup ===================
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=CONFIG["PREFIX"], intents=intents, help_command=None)
 
-# =================== Events ===================
 @bot.event
 async def on_ready():
-    print(f"🤖 {bot.user} Ready!")
-    print(f"📊 Connected To {len(bot.guilds)} Guilds")
-    print(f"👥 Watching {len(bot.users)} Users")
+    print(f"{bot.user} Ready!")
+    print(f"Connected To {len(bot.guilds)} Guilds")
+    print(f"Watching {len(bot.users)} Users")
     
     status_loop.start()
     status_update_loop.start()
     
-    await send_ticket_panel()
-    await update_status()
+    await send_ticket_panel(bot)
+    await update_status(bot)
 
 @bot.event
 async def on_message(message):
@@ -482,7 +480,7 @@ async def on_message(message):
                     "created_at": datetime.now(timezone.utc).isoformat()
                 })
     except Exception as e:
-        print(f"⚠️ Error In On_Message: {e}")
+        print(f"Error In On_Message: {e}")
     await bot.process_commands(message)
 
 @bot.event
@@ -494,26 +492,46 @@ async def on_member_join(member):
         
         channel = member.guild.get_channel(CONFIG["CHANNELS"]["Welcome"])
         if channel:
-            await channel.send(
-                embed=embed(
-                    f"{EMOJIS['status']} Welcome!",
-                    f"**Hello {member.mention}!**\n"
-                    f"🎉 Welcome To **{member.guild.name}**!",
-                    CONFIG["COLORS"]["Success"]
-                )
+            welcome_banner = "https://cdn.discordapp.com/attachments/1546881047440920588/1546905048989171833/izvGi.jpg"
+            
+            embed_welcome = discord.Embed(
+                title=f"{EMOJIS['status']} **Welcome To The Server!**",
+                description=(
+                    f"**Hello {member.mention}!** 👋\n"
+                    f"Welcome To **{member.guild.name}**!\n\n"
+                    f"📌 **Quick Guide:**\n"
+                    f"> • Read The Rules\n"
+                    f"> • Choose Your Roles\n"
+                    f"> • Use Ticket System For Support\n\n"
+                    f"🎉 **We Hope You Enjoy Your Stay!**"
+                ),
+                color=CONFIG["COLORS"]["Success"],
+                timestamp=datetime.now(timezone.utc)
             )
-        print(f"👤 New Member Joined: {member.name}")
-        await update_status()
+            embed_welcome.set_image(url=welcome_banner)
+            embed_welcome.set_footer(
+                text=f"SheriffTeam | Member #{member.guild.member_count}",
+                icon_url=member.guild.icon.url if member.guild.icon else None
+            )
+            
+            await channel.send(
+                content=f"{member.mention} 🎉",
+                embed=embed_welcome
+            )
+        
+        print(f"New Member Joined: {member.name}")
+        await update_status(bot)
         
     except Exception as e:
-        print(f"❌ Error In On_Member_Join: {e}")
+        print(f"Error In On_Member_Join: {e}")
+        traceback.print_exc()
 
 @bot.event
 async def on_member_remove(member):
     try:
-        await update_status()
+        await update_status(bot)
     except Exception as e:
-        print(f"❌ Error In On_Member_Remove: {e}")
+        print(f"Error In On_Member_Remove: {e}")
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -529,13 +547,12 @@ async def on_command_error(ctx, error):
         await ctx.send(
             embed=embed(
                 f"{EMOJIS['danger']} Command Not Found",
-                f"❌ Command `{ctx.message.content}` Not Found!\n"
-                f"Use `!help` To See Available Commands.",
+                f"❌ Command `{ctx.message.content}` Not Found!\nUse `!help` To See Available Commands.",
                 CONFIG["COLORS"]["Error"]
             )
         )
     else:
-        print(f"❌ Command Error: {error}")
+        print(f"Command Error: {error}")
         await ctx.send(
             embed=embed(
                 f"{EMOJIS['danger']} Error",
@@ -544,7 +561,6 @@ async def on_command_error(ctx, error):
             )
         )
 
-# =================== Tasks ===================
 @tasks.loop(minutes=5)
 async def status_loop():
     try:
@@ -555,13 +571,12 @@ async def status_loop():
         ]
         await bot.change_presence(activity=random.choice(activities))
     except Exception as e:
-        print(f"⚠️ Error In Status Loop: {e}")
+        print(f"Error In Status Loop: {e}")
 
 @tasks.loop(minutes=2)
 async def status_update_loop():
-    await update_status()
+    await update_status(bot)
 
-# =================== Commands ===================
 @bot.command()
 @commands.has_permissions(administrator=True)
 async def ticket(ctx):
@@ -595,9 +610,9 @@ async def ticket(ctx):
         embed_panel.set_footer(text="SheriffTeam | Support System", icon_url=bot.user.display_avatar.url)
 
         await ctx.send(embed=embed_panel, view=TicketPanel())
-        print(f"📋 Ticket Panel Shown By {ctx.author.name}")
+        print(f"Ticket Panel Shown By {ctx.author.name}")
     except Exception as e:
-        print(f"❌ Error In Ticket Command: {e}")
+        print(f"Error In Ticket Command: {e}")
         await ctx.send(embed=embed(f"{EMOJIS['danger']} Error", str(e), CONFIG["COLORS"]["Error"]))
 
 @bot.command()
@@ -626,14 +641,14 @@ async def stats(ctx):
         
         await ctx.send(embed=embed_stats)
     except Exception as e:
-        print(f"❌ Error In Stats Command: {e}")
+        print(f"Error In Stats Command: {e}")
         await ctx.send(embed=embed(f"{EMOJIS['danger']} Error", str(e), CONFIG["COLORS"]["Error"]))
 
 @bot.command()
 @commands.has_permissions(administrator=True)
 async def refresh(ctx):
     try:
-        await update_status()
+        await update_status(bot)
         await ctx.send(embed=embed("✅ Status Refreshed", "Status channel has been updated!", CONFIG["COLORS"]["Success"]))
     except Exception as e:
         await ctx.send(embed=embed(f"{EMOJIS['danger']} Error", str(e), CONFIG["COLORS"]["Error"]))
@@ -658,16 +673,15 @@ async def help(ctx):
         
         await ctx.send(embed=embed_help)
     except Exception as e:
-        print(f"❌ Error In Help Command: {e}")
+        print(f"Error In Help Command: {e}")
         await ctx.send(embed=embed(f"{EMOJIS['danger']} Error", str(e), CONFIG["COLORS"]["Error"]))
 
-# =================== Run Bot ===================
 if __name__ == "__main__":
     try:
-        print("🚀 Starting Bot...")
+        print("Starting Bot...")
         bot.run(CONFIG["TOKEN"])
     except discord.LoginFailure:
-        print("❌ Invalid Token! Please Enter A Valid Token.")
+        print("Invalid Token! Please Enter A Valid Token.")
     except Exception as e:
-        print(f"❌ Error Starting Bot: {e}")
+        print(f"Error Starting Bot: {e}")
         traceback.print_exc()
