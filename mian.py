@@ -66,6 +66,74 @@ EMOJIS = {
     "select": "<:131090select:1540485377092223006>"
 }
 
+class WelcomeButtons(View):
+    def __init__(self):
+        super().__init__(timeout=None)
+        
+    @discord.ui.button(label="📜 قوانین سرور", style=discord.ButtonStyle.primary, emoji="📜")
+    async def rules_button(self, interaction: discord.Interaction, button: Button):
+        embed_rules = discord.Embed(
+            title="📜 قوانین استار سیتی",
+            description=(
+                "**IC** : اطلاعاتی که شخصیت شما در شهر می‌فهمد.\n"
+                "**OOC** : اطلاعات بیرون از بازی که مربوط به خود شماست.\n"
+                "**MG** : استفاده از اطلاعات بیرون بازی برای شخصیت درون بازی.\n"
+                "**PG** : انجام کار غیرمنطقی یا تحمیل نتیجه به دیگران.\n"
+                "**RDM / VDM** : درگیری یا آسیب بدون دلیل کافی.\n"
+                "**FearRP** : ارزش قائل شدن شخصیت برای جان خود.\n\n"
+                "برای مشاهده قوانین کامل، روی لینک زیر کلیک کنید:"
+            ),
+            color=CONFIG["COLORS"]["Info"]
+        )
+        embed_rules.add_field(
+            name="🔗 لینک قوانین کامل",
+            value="[مشاهده قوانین کامل](https://starcityroleplay.com/rules)",
+            inline=False
+        )
+        embed_rules.set_footer(text="SheriffTeam | قوانین سرور")
+        
+        await interaction.response.send_message(embed=embed_rules, ephemeral=True)
+    
+    @discord.ui.button(label="👮 بخش شریف", style=discord.ButtonStyle.success, emoji="👮")
+    async def sheriff_button(self, interaction: discord.Interaction, button: Button):
+        embed_sheriff = discord.Embed(
+            title="👮 بخش شریف",
+            description=(
+                "نیروی انتظامی شهرستان، مسئول امنیت مناطق خارج از شهر و حومه\n\n"
+                "**درباره شریف:**\n"
+                "اداره شریف استارسیتی مسئولیت اصلی برقراری و حفظ نظم عمومی، "
+                "تأمین امنیت و اجرای قانون در مناطق خارج از محدوده شهری و روستاهای حومه شهر را بر عهده دارد.\n\n"
+                "**آمار:**\n"
+                "• ۴۵ نیروی فعال\n"
+                "• ۱۲ آنلاین"
+            ),
+            color=CONFIG["COLORS"]["Primary"]
+        )
+        embed_sheriff.add_field(
+            name="🔗 لینک بخش شریف",
+            value="[مشاهده اطلاعات بیشتر](https://starcityroleplay.com/department/sheriff)",
+            inline=False
+        )
+        embed_sheriff.set_footer(text="SheriffTeam | بخش شریف")
+        
+        await interaction.response.send_message(embed=embed_sheriff, ephemeral=True)
+    
+    @discord.ui.button(label="🎫 تیکت پشتیبانی", style=discord.ButtonStyle.danger, emoji="🎫")
+    async def ticket_button(self, interaction: discord.Interaction, button: Button):
+        embed_ticket = discord.Embed(
+            title="🎫 سیستم تیکت",
+            description=(
+                "برای ایجاد تیکت جدید، از دستور زیر استفاده کنید:\n"
+                "`!ticket` (فقط ادمین‌ها)\n\n"
+                "یا از پنل تیکت در کانال مربوطه استفاده کنید.\n\n"
+                "**نکته:** لطفاً قبل از ایجاد تیکت، قوانین را مطالعه کنید."
+            ),
+            color=CONFIG["COLORS"]["Warning"]
+        )
+        embed_ticket.set_footer(text="SheriffTeam | پشتیبانی")
+        
+        await interaction.response.send_message(embed=embed_ticket, ephemeral=True)
+
 class TicketManager:
     def __init__(self):
         self.tickets = {}
@@ -495,44 +563,31 @@ async def on_member_join(member):
             welcome_banner = "https://cdn.discordapp.com/attachments/1546881047440920588/1546905048989171833/izvGi.jpg"
             
             embed_welcome = discord.Embed(
-                title=f"{EMOJIS['status']} **به سرور استار سیتی خوش آمدید!**",
+                title=f"{EMOJIS['status']} Welcome To The Server!",
                 description=(
-                    f"**سلام {member.mention}!** 👋\n"
-                    f"به **{member.guild.name}** خوش آمدید!\n\n"
-                    
-                    "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n"
-                    "**👮 درباره بخش شریف:**\n"
-                    "نیروی انتظامی شهرستان، مسئول امنیت مناطق خارج از شهر و حومه.\n"
-                    "ما با گشت‌زنی مستمر و رسیدگی به جرائم، امنیت را تامین می‌کنیم.\n"
-                    "برای اطلاعات بیشتر به سایت مراجعه کنید:\n"
-                    "https://starcityroleplay.com/department/sheriff\n"
-                    "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n\n"
-                    
-                    "**📜 قوانین کلی سرور:**\n"
-                    "• **IC** : اطلاعاتی که شخصیت شما در شهر می‌فهمد.\n"
-                    "• **OOC** : اطلاعات بیرون از بازی که مربوط به خود شماست.\n"
-                    "• **MG** : استفاده از اطلاعات بیرون بازی برای شخصیت درون بازی.\n"
-                    "• **PG** : انجام کار غیرمنطقی یا تحمیل نتیجه به دیگران.\n"
-                    "• **RDM / VDM** : درگیری یا آسیب بدون دلیل کافی.\n"
-                    "• **FearRP** : ارزش قائل شدن شخصیت برای جان خود.\n\n"
-                    "برای مشاهده **قوانین کامل**، از لینک زیر استفاده کنید:\n"
-                    "https://starcityroleplay.com/rules\n"
-                    "**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n\n"
-                    
-                    "🎉 **امیدواریم لحظات خوبی در نقش‌آفرینی داشته باشید!**"
+                    f"**Hello {member.mention}!** 👋\n"
+                    f"Welcome To **[ 𝓢𝓒 ] Sheriff Department**!\n\n"
+                    "📌 **Quick Guide:**\n"
+                    "• Read The Rules\n"
+                    "• Choose Your Roles\n"
+                    "• Use Ticket System For Support\n\n"
+                    "🎉 **We Hope You Enjoy Your Stay!**"
                 ),
                 color=CONFIG["COLORS"]["Success"],
                 timestamp=datetime.now(timezone.utc)
             )
             embed_welcome.set_image(url=welcome_banner)
             embed_welcome.set_footer(
-                text=f"SheriffTeam | عضو شماره {member.guild.member_count}",
+                text=f"SheriffTeam | Member #{member.guild.member_count}",
                 icon_url=member.guild.icon.url if member.guild.icon else None
             )
             
+            view = WelcomeButtons()
+            
             await channel.send(
                 content=f"{member.mention} 🎉",
-                embed=embed_welcome
+                embed=embed_welcome,
+                view=view
             )
         
         print(f"New Member Joined: {member.name}")
